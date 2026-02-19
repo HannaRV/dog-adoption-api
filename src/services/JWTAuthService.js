@@ -3,7 +3,7 @@ import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
 import ValidationError from '../utils/errors/ValidationError.js'
 
-export default class AuthService {
+export default class JWTAuthService {
   #userRepository
 
   constructor () {
