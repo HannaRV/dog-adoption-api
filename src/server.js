@@ -1,22 +1,22 @@
+/**
+ * @file Application entry point.
+ * @module src/server.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import 'dotenv/config'
-import app from './app.js'
+import ExpressApplication from './config/express.js'
 import connectDatabase from './config/database.js'
 
 const PORT = process.env.PORT || 3000
 
 await connectDatabase()
 
-const server = app.listen(PORT, () => {
+const expressApplication = new ExpressApplication()
+const server = expressApplication.getApp().listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-const shutDownGracefully = (signal) => {
-  console.log(`${signal} received, shutting down gracefully`)
-  server.close(() => {
-    console.log('Server closed')
-    process.exit(0)
-  })
-}
-
-process.on('SIGTERM', () => shutDownGracefully('SIGTERM'))
-process.on('SIGINT', () => shutDownGracefully('SIGINT'))
+process.on('SIGTERM', () => server.close(() => process.exit(0)))
+process.on('SIGINT', () => server.close(() => process.exit(0)))
