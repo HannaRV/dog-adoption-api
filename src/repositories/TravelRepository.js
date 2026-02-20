@@ -1,24 +1,30 @@
 import Travel from '../models/Travel.js'
 
 export default class TravelRepository {
+  #model
+
+  constructor (model = Travel) {
+    this.#model = model
+  }
+
   #calculateTravelsToSkip (page, travelsPerPage) {
     return (page - 1) * travelsPerPage
   }
 
   async findAll ({ page = 1, travelsPerPage = 20 }) {
     const travelsToSkip = this.#calculateTravelsToSkip(page, travelsPerPage)
-    const travelRecords = await Travel.find().skip(travelsToSkip).limit(travelsPerPage)
-    const totalTravels = await Travel.countDocuments()
+    const travelRecords = await this.#model.find().skip(travelsToSkip).limit(travelsPerPage).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    const totalTravels = await this.#model.countDocuments()
     const totalPages = Math.ceil(totalTravels / travelsPerPage)
 
     return { travelRecords, totalTravels, totalPages, page, travelsPerPage }
   }
 
   async findByPetfinderId (petfinderId) {
-    return Travel.findOne({ petfinder_id: petfinderId })
+    return this.#model.findOne({ petfinder_id: petfinderId }).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
   }
 
   async removeByPetfinderId (petfinderId) {
-    return Travel.deleteOne({ petfinder_id: petfinderId })
+    return this.#model.deleteOne({ petfinder_id: petfinderId })
   }
 }
