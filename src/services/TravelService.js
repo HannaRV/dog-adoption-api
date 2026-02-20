@@ -4,8 +4,8 @@ import NotFoundError from '../utils/errors/NotFoundError.js'
 export default class TravelService {
   #travelRepository
 
-  constructor () {
-    this.#travelRepository = new TravelRepository()
+  constructor (travelRepository = new TravelRepository()) {
+    this.#travelRepository = travelRepository
   }
 
   #throwIfTravelNotFound (travelRecord) {
