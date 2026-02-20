@@ -1,3 +1,10 @@
+/**
+ * @file Repository for travel record data access.
+ * @module src/repositories/TravelRepository.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import Travel from '../models/Travel.js'
 
 export default class TravelRepository {
