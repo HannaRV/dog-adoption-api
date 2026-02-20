@@ -1,3 +1,10 @@
+/**
+ * @file Service for travel record business logic.
+ * @module src/services/TravelService.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import TravelRepository from '../repositories/TravelRepository.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'
 

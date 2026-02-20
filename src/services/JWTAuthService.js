@@ -1,3 +1,10 @@
+/**
+ * @file Service for JWT authentication logic.
+ * @module src/services/JWTAuthService.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import jwt from 'jsonwebtoken'
 import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'

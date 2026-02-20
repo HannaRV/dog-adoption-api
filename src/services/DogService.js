@@ -1,3 +1,10 @@
+/**
+ * @file Service for dog business logic.
+ * @module src/services/DogService.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import DogRepository from '../repositories/DogRepository.js'
 import TravelRepository from '../repositories/TravelRepository.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'

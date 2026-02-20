@@ -1,3 +1,10 @@
+/**
+ * @file Service for location business logic.
+ * @module src/services/LocationService.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import LocationRepository from '../repositories/LocationRepository.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'
 
