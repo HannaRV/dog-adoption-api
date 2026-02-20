@@ -13,7 +13,7 @@ export default class TravelRepository {
 
   async findAll ({ page = 1, travelsPerPage = 20 }) {
     const travelsToSkip = this.#calculateTravelsToSkip(page, travelsPerPage)
-    const travelRecords = await this.#model.find().skip(travelsToSkip).limit(travelsPerPage).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    const travelRecords = await this.#model.find().skip(travelsToSkip).limit(travelsPerPage).lean().exec()
     const totalTravels = await this.#model.countDocuments()
     const totalPages = Math.ceil(totalTravels / travelsPerPage)
 
@@ -21,7 +21,7 @@ export default class TravelRepository {
   }
 
   async findByPetfinderId (petfinderId) {
-    return this.#model.findOne({ petfinder_id: petfinderId }).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    return this.#model.findOne({ petfinder_id: petfinderId }).lean().exec()
   }
 
   async removeByPetfinderId (petfinderId) {
