@@ -13,7 +13,7 @@ export default class DogRepository {
 
   async findAll ({ filter = {}, page = 1, dogsPerPage = 20 }) {
     const dogsToSkip = this.#calculateDogsToSkip(page, dogsPerPage)
-    const dogs = await this.#model.find(filter).skip(dogsToSkip).limit(dogsPerPage).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    const dogs = await this.#model.find(filter).skip(dogsToSkip).limit(dogsPerPage).lean().exec()
     const totalDogs = await this.#model.countDocuments(filter)
     const totalPages = Math.ceil(totalDogs / dogsPerPage)
 
@@ -21,7 +21,7 @@ export default class DogRepository {
   }
 
   async findById (id) {
-    return this.#model.findById(id).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    return this.#model.findById(id).lean().exec()
   }
 
   async create (dogData) {
@@ -30,10 +30,10 @@ export default class DogRepository {
   }
 
   async update (id, dogData) {
-    return this.#model.findByIdAndUpdate(id, dogData, { new: true }).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    return this.#model.findByIdAndUpdate(id, dogData, { new: true }).lean().exec()
   }
 
   async remove (id) {
-    return this.#model.findByIdAndDelete(id).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    return this.#model.findByIdAndDelete(id).lean().exec()
   }
 }
