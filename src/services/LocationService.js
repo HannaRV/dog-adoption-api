@@ -4,8 +4,8 @@ import NotFoundError from '../utils/errors/NotFoundError.js'
 export default class LocationService {
   #locationRepository
 
-  constructor () {
-    this.#locationRepository = new LocationRepository()
+  constructor (locationRepository = new LocationRepository()) {
+    this.#locationRepository = locationRepository
   }
 
   async getAllLocations () {
