@@ -8,10 +8,10 @@ export default class LocationRepository {
   }
 
   async findAll () {
-    return this.#model.find().lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    return this.#model.find().lean().exec()
   }
 
   async findByState (state) {
-    return this.#model.findOne({ location: state }).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
+    return this.#model.findOne({ location: state }).lean().exec()
   }
 }
