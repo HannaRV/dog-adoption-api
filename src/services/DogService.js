@@ -6,9 +6,9 @@ export default class DogService {
   #dogRepository
   #travelRepository
 
-  constructor () {
-    this.#dogRepository = new DogRepository()
-    this.#travelRepository = new TravelRepository()
+  constructor (dogRepository = new DogRepository(), travelRepository = new TravelRepository()) {
+    this.#dogRepository = dogRepository
+    this.#travelRepository = travelRepository
   }
 
   #throwIfDogNotFound (dog) {
