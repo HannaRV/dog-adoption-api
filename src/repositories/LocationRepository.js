@@ -1,11 +1,17 @@
 import Location from '../models/Location.js'
 
 export default class LocationRepository {
+  #model
+
+  constructor (model = Location) {
+    this.#model = model
+  }
+
   async findAll () {
-    return Location.find()
+    return this.#model.find().lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
   }
 
   async findByState (state) {
-    return Location.findOne({ location: state })
+    return this.#model.findOne({ location: state }).lean({ virtuals: Boolean(this.#model.schema.virtuals) }).exec()
   }
 }
