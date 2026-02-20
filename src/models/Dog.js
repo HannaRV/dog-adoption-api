@@ -1,7 +1,14 @@
+/**
+ * @file Mongoose model for adoptable dogs.
+ * @module src/models/Dog.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import mongoose from 'mongoose'
 
 const dogSchema = new mongoose.Schema({
-  petfinder_id: { type: String, unique: true },
+  petfinder_id: { type: String, required: true, unique: true },
   name: { type: String },
   breed_primary: { type: String },
   breed_mixed: { type: Boolean },
