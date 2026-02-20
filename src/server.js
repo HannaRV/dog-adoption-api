@@ -7,11 +7,11 @@
 
 import 'dotenv/config'
 import ExpressApplication from './config/express.js'
-import connectDatabase from './config/database.js'
+import connectMongoose from './config/mongoose.js'
 
 const PORT = process.env.PORT || 3000
 
-await connectDatabase()
+await connectMongoose()
 
 const expressApplication = new ExpressApplication()
 const server = expressApplication.getApp().listen(PORT, () => {
