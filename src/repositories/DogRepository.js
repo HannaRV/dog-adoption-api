@@ -1,3 +1,10 @@
+/**
+ * @file Repository for dog data access.
+ * @module src/repositories/DogRepository.js
+ * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import Dog from '../models/Dog.js'
 
 export default class DogRepository {
