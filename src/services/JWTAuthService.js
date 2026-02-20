@@ -6,8 +6,8 @@ import ValidationError from '../utils/errors/ValidationError.js'
 export default class JWTAuthService {
   #userRepository
 
-  constructor () {
-    this.#userRepository = new UserRepository()
+  constructor (userRepository = new UserRepository()) {
+    this.#userRepository = userRepository
   }
 
   #generateToken (userId) {
@@ -20,7 +20,7 @@ export default class JWTAuthService {
 
   async register (username, email, password) {
     const existingUser = await this.#userRepository.findByEmail(email)
-    const emailAlreadyExists = !!existingUser
+    const emailAlreadyExists = Boolean(existingUser)
 
     if (emailAlreadyExists) {
       throw new ValidationError('Email already in use')
