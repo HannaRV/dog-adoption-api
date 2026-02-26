@@ -9,7 +9,7 @@ import express from 'express'
 import dogRouter from './DogRouter.js'
 import travelRouter from './TravelRouter.js'
 import locationRouter from './LocationRouter.js'
-import authenticationRouter from './authenticationRouter.js'
+import authenticationRouter from './AuthenticationRouter.js'
 
 export const router = express.Router()
 

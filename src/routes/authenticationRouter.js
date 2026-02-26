@@ -15,6 +15,9 @@ export default class AuthenticationRouter {
   #router
   #authenticationController
 
+  /**
+   * @param {AuthenticationController} [authenticationController] - Injected for testing.
+   */
   constructor (authenticationController = new AuthenticationController()) {
     this.#router = express.Router()
     this.#authenticationController = authenticationController
@@ -26,6 +29,11 @@ export default class AuthenticationRouter {
     this.#router.post('/login', (req, res, next) => this.#authenticationController.login(req, res, next))
   }
 
+  /**
+   * Returns the configured Express router.
+   *
+   * @returns {express.Router} Express router instance.
+   */
   getRouter () {
     return this.#router
   }
