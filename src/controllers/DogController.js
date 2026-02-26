@@ -6,7 +6,7 @@
  */
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
-import { PAGINATION_DEFAULTS } from '../config/apiConfig.js'
+import { PAGINATION_DEFAULTS, API_RESOURCES } from '../config/apiConfig.js'
 import DogService from '../services/DogService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
@@ -123,7 +123,7 @@ export default class DogController {
     return {
       dogs: result.dogs.map(dog => this.#buildDogResponse(dog)),
       _pagination: this.#buildPagination(result),
-      _links: this.#hateoasLinkBuilder.buildCollectionLinks('dogs', result.page, result.totalPages)
+      _links: this.#hateoasLinkBuilder.buildCollectionLinks(API_RESOURCES.DOGS, result.page, result.totalPages)
     }
   }
 
@@ -136,3 +136,4 @@ export default class DogController {
     }
   }
 }
+

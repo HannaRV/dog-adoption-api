@@ -14,3 +14,9 @@ export const PAGINATION_DEFAULTS = {
   PAGE: 1,
   PAGE_SIZE: 20
 }
+
+export const API_RESOURCES = {
+  DOGS: 'dogs',
+  TRAVEL: 'travel',
+  LOCATIONS: 'locations'
+}
