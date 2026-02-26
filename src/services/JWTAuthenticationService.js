@@ -1,6 +1,6 @@
 /**
  * @file Service for JWT authentication logic.
- * @module src/services/JWTAuthService.js
+ * @module src/services/JWTAuthenticationService.js
  * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
  * @version 1.0.0
  */
@@ -10,7 +10,7 @@ import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
 import ValidationError from '../utils/errors/ValidationError.js'
 
-export default class JWTAuthService {
+export default class JWTAuthenticationService {
   #userRepository
 
   constructor (userRepository = new UserRepository()) {
