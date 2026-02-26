@@ -6,7 +6,7 @@
  */
 
 import express from 'express'
-import dogRouter from './dogRouter.js'
+import dogRouter from './DogRouter.js'
 import travelRouter from './travelRouter.js'
 import locationRouter from './locationRouter.js'
 import authenticationRouter from './authenticationRouter.js'
