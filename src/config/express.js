@@ -35,26 +35,32 @@ export default class ExpressApplication {
     this.#configureErrorHandling()
   }
 
+  /**
+   * Configures security middleware.
+   */
   #configureSecurityMiddleware () {
     this.#app.use(this.#securityHandler.getSecurityHeadersMiddleware())
     this.#app.use(this.#securityHandler.getRateLimitMiddleware())
     this.#app.use(cors())
   }
 
+  /**
+   * Configures body parsing middleware.
+   */
   #configureBodyParsing () {
     this.#app.use(express.json())
   }
 
   /**
-   * Adds routes to the application.
-   *
-   * @param {string} path - Base path for the router.
-   * @param {object} router - Express router.
+   * Configures routes via addRouter().
    */
   #configureRoutes () {
     // Routes läggs till via addRouter()
   }
 
+  /**
+   * Configures error handling middleware.
+   */
   #configureErrorHandling () {
     this.#app.use((err, req, res, next) =>
       this.#errorHandler.handle(err, req, res, next))
