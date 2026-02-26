@@ -6,6 +6,7 @@
  */
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
+import { PAGINATION_DEFAULTS } from '../config/apiConfig.js'
 import DogService from '../services/DogService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
@@ -73,24 +74,48 @@ export default class DogController {
   #buildQuery (req) {
     return {
       filter: this.#buildFilter(req.query),
-      page: Number(req.query.page) || 1,
-      dogsPerPage: Number(req.query.limit) || 20
+      page: Number(req.query.page) || PAGINATION_DEFAULTS.PAGE,
+      dogsPerPage: Number(req.query.limit) || PAGINATION_DEFAULTS.PAGE_SIZE
     }
   }
 
-  #buildFilter ({ breed_primary, age, sex, size }) {
+  #buildFilter ({ breedPrimary, age, sex, size }) {
     const filter = {}
-    if (breed_primary) filter.breed_primary = breed_primary
+    if (breedPrimary) filter.breed_primary = breedPrimary
     if (age) filter.age = age
     if (sex) filter.sex = sex
     if (size) filter.size = size
     return filter
   }
 
-  #buildDogResponse (dog) {
+  #mapToResponseFormat (dog) {
     return {
-      ...dog,
-      _links: this.#hateoasLinkBuilder.buildDogLinks(dog._id, dog.petfinder_id, dog.contact_state)
+      id: dog._id,
+      name: dog.name,
+      breedPrimary: dog.breed_primary,
+      breedMixed: dog.breed_mixed,
+      colorPrimary: dog.color_primary,
+      age: dog.age,
+      sex: dog.sex,
+      size: dog.size,
+      coat: dog.coat,
+      fixed: dog.fixed,
+      houseTrained: dog.house_trained,
+      specialNeeds: dog.special_needs,
+      shotsCurrent: dog.shots_current,
+      envChildren: dog.env_children,
+      envDogs: dog.env_dogs,
+      envCats: dog.env_cats,
+      contactState: dog.contact_state,
+      description: dog.description
+    }
+  }
+
+  #buildDogResponse (dog) {
+    const dogResponse = this.#mapToResponseFormat(dog)
+    return {
+      ...dogResponse,
+      _links: this.#hateoasLinkBuilder.buildDogLinks(dogResponse.id, dog.petfinder_id, dog.contact_state)
     }
   }
 

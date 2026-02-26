@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+import { API_CONFIG } from '../config/apiConfig.js'
+
 /**
  * Builds HATEOAS links for API responses.
  */
@@ -16,8 +18,9 @@ export default class HateoasBuilder {
   }
 
   buildDogLinks (id, petfinderId, contactState) {
+    const base = `${this.#baseUrl}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}`
     return {
-      self: { href: `${this.#baseUrl}/api/v1/dogs/${id}` },
+      self: { href: `${base}/dogs/${id}` },
       update: { href: `${this.#baseUrl}/api/v1/dogs/${id}` },
       delete: { href: `${this.#baseUrl}/api/v1/dogs/${id}` },
       travel: { href: `${this.#baseUrl}/api/v1/travel/${petfinderId}` },
