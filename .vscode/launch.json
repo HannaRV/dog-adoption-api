@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Development",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "dev"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "restart": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Launch Production",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/server.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "env": {
+                "NODE_ENV": "production"
+            }
+        },
+        {
+            "name": "Debug Current File",
+            "type": "node",
+            "request": "launch",
+            "program": "${file}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
