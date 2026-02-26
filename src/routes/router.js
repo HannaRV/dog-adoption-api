@@ -7,8 +7,8 @@
 
 import express from 'express'
 import dogRouter from './DogRouter.js'
-import travelRouter from './travelRouter.js'
-import locationRouter from './locationRouter.js'
+import travelRouter from './TravelRouter.js'
+import locationRouter from './LocationRouter.js'
 import authenticationRouter from './authenticationRouter.js'
 
 export const router = express.Router()
