@@ -6,7 +6,7 @@
  */
 
 export const API_CONFIG = {
-  PREFIX: '/api',
+  PREFIX: 'api',
   VERSION: 'v1'
 }
 

@@ -12,11 +12,13 @@ import { API_CONFIG } from '../config/apiConfig.js'
  */
 export default class HateoasLinkBuilder {
   #baseUrl
-  #apiBase
 
   constructor (baseUrl = process.env.API_BASE_URL) {
     this.#baseUrl = baseUrl
-    this.#apiBase = `${this.#baseUrl}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}`
+  }
+
+  get #apiBase () {
+    return `${this.#baseUrl}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}`
   }
 
   buildDogLinks (id, petfinderId, contactState) {
