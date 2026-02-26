@@ -64,7 +64,7 @@ export default class LocationController {
   #buildCollectionResponse (locations) {
     return {
       locations: locations.map(location => this.#buildLocationResponse(location)),
-      _links: this.#hateoasLinkBuilder.buildCollectionLinks(API_RESOURCES.LOCATIONS, 1, 1)
+      _links: this.#hateoasLinkBuilder.buildSimpleCollectionLinks(API_RESOURCES.LOCATIONS)
     }
   }
 }
