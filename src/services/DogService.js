@@ -34,6 +34,12 @@ export default class DogService {
     return dog
   }
 
+  async getDogTravelById (id) {
+    const dog = await this.#dogRepository.findById(id)
+    this.#throwIfDogNotFound(dog)
+    return this.#travelRepository.findByPetfinderId(dog.petfinder_id)
+  }
+
   async createDog (dogData) {
     return this.#dogRepository.create(dogData)
   }

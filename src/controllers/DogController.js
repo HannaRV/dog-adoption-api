@@ -44,6 +44,15 @@ export default class DogController {
     }
   }
 
+  async getDogTravelById (req, res, next) {
+    try {
+      const travelRecords = await this.#dogService.getDogTravelById(req.params.id)
+      res.status(HTTP_STATUS.OK).json({ travelRecords })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async createDog (req, res, next) {
     try {
       const dog = await this.#dogService.createDog(req.body)
