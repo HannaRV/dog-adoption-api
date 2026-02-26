@@ -9,6 +9,8 @@ import express from 'express'
 import cors from 'cors'
 import SecurityHandler from '../middleware/SecurityHandler.js'
 import ErrorHandler from '../middleware/ErrorHandler.js'
+import { router } from '../routes/router.js'
+import { API_CONFIG } from './apiConfig.js'
 
 /**
  * Configures and manages the Express application.
@@ -35,45 +37,23 @@ export default class ExpressApplication {
     this.#configureErrorHandling()
   }
 
-  /**
-   * Configures security middleware.
-   */
   #configureSecurityMiddleware () {
     this.#app.use(this.#securityHandler.getSecurityHeadersMiddleware())
     this.#app.use(this.#securityHandler.getRateLimitMiddleware())
     this.#app.use(cors())
   }
 
-  /**
-   * Configures body parsing middleware.
-   */
   #configureBodyParsing () {
     this.#app.use(express.json())
   }
 
-  /**
-   * Configures routes via addRouter().
-   */
   #configureRoutes () {
-    // Routes läggs till via addRouter()
+    this.#app.use(`/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}`, router)
   }
 
-  /**
-   * Configures error handling middleware.
-   */
   #configureErrorHandling () {
     this.#app.use((err, req, res, next) =>
       this.#errorHandler.handle(err, req, res, next))
-  }
-
-  /**
-   * Registers a router at the given path.
-   *
-   * @param {string} path - Base path.
-   * @param {object} router - Express router.
-   */
-  addRouter (path, router) {
-    this.#app.use(path, router)
   }
 
   /**
