@@ -21,4 +21,12 @@ export default class LocationRepository {
   async findByState (state) {
     return this.#model.findOne({ location: state }).lean().exec()
   }
+
+  async insertMany (locations) {
+    await this.#model.insertMany(locations, { ordered: false })
+  }
+
+  async deleteAll () {
+    await this.#model.deleteMany({})
+  }
 }

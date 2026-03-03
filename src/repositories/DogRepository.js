@@ -43,4 +43,12 @@ export default class DogRepository {
   async remove (id) {
     return this.#model.findByIdAndDelete(id).lean().exec()
   }
+
+  async insertMany (dogs) {
+    await this.#model.insertMany(dogs, { ordered: false })
+  }
+
+  async deleteAll () {
+    await this.#model.deleteMany({})
+  }
 }

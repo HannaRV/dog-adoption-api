@@ -34,4 +34,12 @@ export default class TravelRepository {
   async removeByPetfinderId (petfinderId) {
     return this.#model.deleteOne({ petfinder_id: petfinderId })
   }
+
+  async insertMany (travelRecords) {
+    await this.#model.insertMany(travelRecords, { ordered: false })
+  }
+
+  async deleteAll () {
+    await this.#model.deleteMany({})
+  }
 }
