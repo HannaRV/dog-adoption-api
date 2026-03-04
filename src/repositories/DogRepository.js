@@ -37,7 +37,7 @@ export default class DogRepository {
   }
 
   async update (id, dogData) {
-    return this.#model.findByIdAndUpdate(id, dogData, { new: true }).lean().exec()
+    return this.#model.findByIdAndUpdate(id, dogData, { returnDocument: 'after' }).lean().exec()
   }
 
   async remove (id) {

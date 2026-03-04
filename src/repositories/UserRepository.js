@@ -15,7 +15,7 @@ export default class UserRepository {
   }
 
   async findByEmail (email) {
-    return this.#model.findOne({ email }).lean().exec()
+    return this.#model.findOne({ email }).exec()
   }
 
   async create (userData) {

@@ -8,7 +8,7 @@
 import mongoose from 'mongoose'
 
 const dogSchema = new mongoose.Schema({
-  petfinder_id: { type: String, required: true, unique: true },
+  petfinder_id: { type: String, unique: true, sparse: true },
   name: { type: String },
   breed_primary: { type: String },
   breed_mixed: { type: Boolean },
