@@ -22,14 +22,19 @@ export default class HateoasLinkBuilder {
   }
 
   buildDogLinks (id, petfinderId, contactState) {
-    return {
+    const links = {
       self: { href: `${this.#apiBase}/dogs/${id}` },
       update: { href: `${this.#apiBase}/dogs/${id}` },
       delete: { href: `${this.#apiBase}/dogs/${id}` },
-      travel: { href: `${this.#apiBase}/travel/${petfinderId}` },
       location: { href: `${this.#apiBase}/locations/${contactState}` },
       collection: { href: `${this.#apiBase}/dogs` }
     }
+
+    if (petfinderId) {
+      links.travel = { href: `${this.#apiBase}/travel/${petfinderId}` }
+    }
+
+    return links
   }
 
   buildTravelLinks (petfinderId) {
