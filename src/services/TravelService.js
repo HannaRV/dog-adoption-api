@@ -26,7 +26,7 @@ export default class TravelService {
   }
 
   async getTravelRecordByPetfinderId (petfinderId) {
-    const travelRecord = await this.#travelRepository.findByPetfinderId(petfinderId)
+    const travelRecord = await this.#travelRepository.findOneByPetfinderId(petfinderId)
     this.#throwIfTravelNotFound(travelRecord)
     return travelRecord
   }

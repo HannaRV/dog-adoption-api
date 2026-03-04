@@ -28,6 +28,10 @@ export default class TravelRepository {
   }
 
   async findByPetfinderId (petfinderId) {
+    return this.#model.find({ petfinder_id: petfinderId }).lean().exec()
+  }
+
+  async findOneByPetfinderId (petfinderId) {
     return this.#model.findOne({ petfinder_id: petfinderId }).lean().exec()
   }
 

@@ -47,7 +47,12 @@ export default class DogController {
   async getDogTravelById (req, res, next) {
     try {
       const travelRecords = await this.#dogService.getDogTravelById(req.params.id)
-      res.status(HTTP_STATUS.OK).json({ travelRecords })
+      res.status(HTTP_STATUS.OK).json({
+        travelRecords: travelRecords.map(record => ({
+          ...this.#mapTravelToResponseFormat(record),
+          _links: this.#hateoasLinkBuilder.buildTravelLinks(record.petfinder_id)
+        }))
+      })
     } catch (error) {
       next(error)
     }
@@ -117,6 +122,16 @@ export default class DogController {
       envCats: dog.env_cats,
       contactState: dog.contact_state,
       description: dog.description
+    }
+  }
+
+  #mapTravelToResponseFormat (travelRecord) {
+    return {
+      id: travelRecord._id,
+      petfinderId: travelRecord.petfinder_id,
+      contactState: travelRecord.contact_state,
+      found: travelRecord.found,
+      stillThere: travelRecord.still_there
     }
   }
 
