@@ -38,6 +38,7 @@ export default class ExpressApplication {
   }
 
   #configureSecurityMiddleware () {
+    this.#app.set('trust proxy', 1)
     this.#app.use(this.#securityHandler.getSecurityHeadersMiddleware())
     this.#app.use(this.#securityHandler.getRateLimitMiddleware())
     this.#app.use(cors())
