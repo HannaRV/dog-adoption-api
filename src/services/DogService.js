@@ -8,6 +8,7 @@
 import DogRepository from '../repositories/DogRepository.js'
 import TravelRepository from '../repositories/TravelRepository.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'
+import ValidationError from '../utils/errors/ValidationError.js'
 
 export default class DogService {
   #dogRepository
@@ -41,7 +42,14 @@ export default class DogService {
   }
 
   async createDog (dogData) {
-    return this.#dogRepository.create(dogData)
+    try {
+      return await this.#dogRepository.create(dogData)
+    } catch (error) {
+      if (error.name === 'ValidationError') {
+        throw new ValidationError(error.message)
+      }
+      throw error
+    }
   }
 
   async updateDog (id, dogData) {
