@@ -62,7 +62,9 @@ export default class DogController {
     try {
       const dogData = this.#filterAllowedFields(req.body)
       const dog = await this.#dogService.createDog(dogData)
-      res.status(HTTP_STATUS.CREATED).json(this.#buildDogResponse(dog))
+      res.location(`${req.protocol}://${req.get('host')}/api/v1/dogs/${dog._id}`)
+        .status(HTTP_STATUS.CREATED)
+        .json(this.#buildDogResponse(dog))
     } catch (error) {
       next(error)
     }
