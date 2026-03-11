@@ -10,7 +10,7 @@ import DogRouter from './DogRouter.js'
 import TravelRouter from './TravelRouter.js'
 import LocationRouter from './LocationRouter.js'
 import AuthenticationRouter from './AuthenticationRouter.js'
-import { NotFoundError } from '../utils/errors/NotFoundError.js'
+import NotFoundError from '../utils/errors/NotFoundError.js'
 import { HTTP_STATUS } from '../config/httpStatus.js'
 
 export const router = express.Router()
