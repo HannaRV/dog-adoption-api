@@ -16,6 +16,11 @@ import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 export default class DogController {
   #dogService
   #hateoasLinkBuilder
+  #allowedDogFields = [
+    'name', 'breed_primary', 'age', 'sex', 'size', 'coat',
+    'fixed', 'house_trained', 'special_needs', 'shots_current',
+    'env_children', 'env_dogs', 'env_cats', 'contact_state', 'description'
+  ]
 
   constructor (
     dogService = new DogService(),
@@ -55,7 +60,8 @@ export default class DogController {
 
   async createDog (req, res, next) {
     try {
-      const dog = await this.#dogService.createDog(req.body)
+      const dogData = this.#filterAllowedFields(req.body)
+      const dog = await this.#dogService.createDog(dogData)
       res.status(HTTP_STATUS.CREATED).json(this.#buildDogResponse(dog))
     } catch (error) {
       next(error)
@@ -64,7 +70,8 @@ export default class DogController {
 
   async updateDog (req, res, next) {
     try {
-      const dog = await this.#dogService.updateDog(req.params.id, req.body)
+      const dogData = this.#filterAllowedFields(req.body)
+      const dog = await this.#dogService.updateDog(req.params.id, dogData)
       res.status(HTTP_STATUS.OK).json(this.#buildDogResponse(dog))
     } catch (error) {
       next(error)
@@ -78,6 +85,14 @@ export default class DogController {
     } catch (error) {
       next(error)
     }
+  }
+
+  #filterAllowedFields (body) {
+    return Object.fromEntries(
+      this.#allowedDogFields
+        .filter(key => key in body)
+        .map(key => [key, body[key]])
+    )
   }
 
   #buildQuery (req) {
