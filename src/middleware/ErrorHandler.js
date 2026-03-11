@@ -16,6 +16,7 @@ class ErrorLogger {
    * @param {object} req - Express request object.
    */
   log (error, req) {
+    // console.error is intentional here — error logging requires output regardless of environment
     console.error('Error occurred:', {
       message: error.message,
       stack: this.#isDevelopment() ? error.stack : undefined,

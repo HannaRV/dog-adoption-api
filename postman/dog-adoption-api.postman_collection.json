@@ -131,6 +131,9 @@
                   "\r",
                   "pm.test(\"Response contains token\", function () {\r",
                   "    pm.expect(response.token).to.be.a('string');\r",
+                  "});",
+                  "pm.test(\"Token is a valid JWT format\", function () {\r",
+                  "    pm.expect(response.token.split('.').length).to.eql(3);\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -1135,13 +1138,13 @@
       "script": {
         "type": "text/javascript",
         "packages": {},
-        "exec": [
-          "pm.test(\"Content-Type is application/json\", function () {\r",
-          "    if (pm.response.code !== 204) {\r",
-          "        pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
-          "    }\r",
-          "});"
-        ]
+    "exec": [
+        "if (pm.response.code !== 204) {\r",
+        "    pm.test(\"Content-Type is application/json\", function () {\r",
+       "        pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+        "    });\r",
+        "}"
+    ]
       }
     }
   ]
