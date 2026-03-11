@@ -8,7 +8,7 @@
 import jwt from 'jsonwebtoken'
 import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
-import ValidationError from '../utils/errors/ValidationError.js'
+import ConflictError from '../utils/errors/ConflictError.js'
 
 export default class JWTAuthenticationService {
   #userRepository
@@ -30,7 +30,7 @@ export default class JWTAuthenticationService {
     const emailAlreadyExists = Boolean(existingUser)
 
     if (emailAlreadyExists) {
-      throw new ValidationError('Email already in use')
+      throw new ConflictError('Email already in use')
     }
 
     const user = await this.#userRepository.create({ username, email, password })
