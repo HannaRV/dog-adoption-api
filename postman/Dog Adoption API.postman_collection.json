@@ -1,0 +1,953 @@
+{
+	"info": {
+		"_postman_id": "00c3a9db-3221-4089-beaf-650276a95b0f",
+		"name": "Dog Adoption API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40098002"
+	},
+	"item": [
+		{
+			"name": "POST Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains token\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.token).to.be.a('string');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomNum = Math.floor(Math.random() * 100000);\r",
+							"pm.environment.set(\"randomUsername\", `testuser_${randomNum}`);\r",
+							"pm.environment.set(\"randomEmail\", `test_${randomNum}@test.com`);\r",
+							"pm.environment.set(\"randomPassword\", \"Password123!\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{randomUsername}}\",\r\n    \"email\": \"{{randomEmail}}\",\r\n    \"password\": \"{{randomPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "409 - Register duplicate email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has error message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('error');\r",
+							"    pm.expect(response).to.have.property('message');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{randomUsername}}\",\r\n    \"email\": \"{{randomEmail}}\",\r\n    \"password\": \"{{randomPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"pm.environment.set(\"token\", response.token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains token\", function () {\r",
+							"    pm.expect(response.token).to.be.a('string');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{randomUsername}}\",\r\n    \"email\": \"{{randomEmail}}\",\r\n    \"password\": \"{{randomPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "401 - Login invalid credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has error message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('error');\r",
+							"    pm.expect(response).to.have.property('message');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{randomUsername}}\",\r\n    \"email\": \"{{randomEmail}}\",\r\n    \"password\": \"wrongpassword123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Dogs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has dogs array\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.dogs).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has pagination\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._pagination).to.have.property('totalDogs');\r",
+							"    pm.expect(response._pagination).to.have.property('page');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Pagination page is a number\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._pagination.page).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Dog ID is a string\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.dogs[0].id).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"if (response.dogs && response.dogs.length > 0) {\r",
+							"    pm.environment.set(\"dogId\", response.dogs[0].id);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogs",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Dog by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has correct dog structure\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('id');\r",
+							"    pm.expect(response).to.have.property('name');\r",
+							"    pm.expect(response).to.have.property('breedPrimary');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"    pm.expect(response._links).to.have.property('collection');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Dog ID matches requested ID\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.id).to.equal(pm.environment.get(\"dogId\"));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogs/{{dogId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs",
+						"{{dogId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Travel Records",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has travel array\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.travelRecords).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has pagination\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._pagination).to.have.property('totalTravels');\r",
+							"    pm.expect(response._pagination).to.have.property('page');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Pagination page is a number\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._pagination.page).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Travel record ID is a string\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.travelRecords[0].id).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"if (response.travelRecords && response.travelRecords.length > 0) {\r",
+							"    pm.environment.set(\"petfinderId\", response.travelRecords[0].petfinderId);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/travel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"travel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has locations array\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.locations).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location ID is a string\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.locations[0].id).to.be.a('string');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/locations",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create Dog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has correct dog structure\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('id');\r",
+							"    pm.expect(response).to.have.property('name');\r",
+							"    pm.expect(response).to.have.property('breedPrimary');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Created dog ID is a string\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.id).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Created dog name matches input\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.name).to.equal(pm.environment.get(\"randomDogName\"));\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"pm.environment.set(\"createdDogId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomNum = Math.floor(Math.random() * 100000);\r",
+							"pm.environment.set(\"randomDogName\", `TestDog_${randomNum}`);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{randomDogName}}\",\r\n    \"breed_primary\": \"Labrador Retriever\",\r\n    \"age\": \"Young\",\r\n    \"sex\": \"Male\",\r\n    \"size\": \"Large\",\r\n    \"contact_state\": \"CA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dogs",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update Dog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has updated dog structure\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('id');\r",
+							"    pm.expect(response).to.have.property('name');\r",
+							"    pm.expect(response).to.have.property('breedPrimary');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Updated dog name matches input\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.name).to.equal(pm.environment.get(\"randomUpdatedDogName\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomNum = Math.floor(Math.random() * 100000);\r",
+							"pm.environment.set(\"randomUpdatedDogName\", `UpdatedDog_${randomNum}`);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{randomUpdatedDogName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dogs/{{createdDogId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs",
+						"{{createdDogId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Dog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogs/{{createdDogId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs",
+						"{{createdDogId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Travel by Petfinder ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has travel records\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('petfinderId');\r",
+							"    pm.expect(response).to.have.property('contactState');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"PetfinderId is a string\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.petfinderId).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"PetfinderId matches requested ID\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.petfinderId).to.equal(pm.environment.get(\"petfinderId\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/travel/{{petfinderId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"travel",
+						"{{petfinderId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Dog Travel Records",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has travel records\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.travelRecords).to.be.an('array');\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogs/{{dogId}}/travel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs",
+						"{{dogId}}",
+						"travel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Location by State",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has correct location structure\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('location');\r",
+							"    pm.expect(response).to.have.property('exported');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has HATEOAS links\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response._links).to.have.property('self');\r",
+							"    pm.expect(response._links).to.have.property('collection');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location is a string\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.location).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Location matches requested state\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.location).to.equal(pm.environment.get(\"state\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/locations/{{state}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"locations",
+						"{{state}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "401 - Access without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has error message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('error');\r",
+							"    pm.expect(response).to.have.property('message');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogs",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 - Dog not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has error message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('error');\r",
+							"    pm.expect(response).to.have.property('message');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogs/000000000000000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs",
+						"000000000000000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 - Invalid dog data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has error message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('error');\r",
+							"    pm.expect(response).to.have.property('message');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"invalid\": \"data\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dogs",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogs"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Content-Type is application/json\", function () {\r",
+					"    if (pm.response.code !== 204) {\r",
+					"        pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+					"    }\r",
+					"});"
+				]
+			}
+		}
+	]
+}
