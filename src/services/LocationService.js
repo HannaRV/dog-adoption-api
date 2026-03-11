@@ -21,11 +21,13 @@ export default class LocationService {
 
   async getLocationByState (state) {
     const location = await this.#locationRepository.findByState(state)
+    this.#throwIfLocationNotFound(location)
+    return location
+  }
 
+  #throwIfLocationNotFound (location) {
     if (!location) {
       throw new NotFoundError('Location not found')
     }
-
-    return location
   }
 }
