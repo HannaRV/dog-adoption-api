@@ -1,6 +1,6 @@
 /**
  * @file Mongoose model for adoptable dogs.
- * @module src/models/Dog.js
+ * @module src/models/DogModel.js
  * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
  * @version 1.0.0
  */

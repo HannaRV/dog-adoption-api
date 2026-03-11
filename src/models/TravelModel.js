@@ -1,6 +1,6 @@
 /**
  * @file Mongoose model for dog travel records.
- * @module src/models/Travel.js
+ * @module src/models/TravelModel.js
  * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
  * @version 1.0.0
  */

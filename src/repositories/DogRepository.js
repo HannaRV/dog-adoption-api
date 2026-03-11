@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import Dog from '../models/Dog.js'
+import Dog from '../models/DogModel.js'
 
 export default class DogRepository {
   #model

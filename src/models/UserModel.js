@@ -1,6 +1,6 @@
 /**
  * @file Mongoose model for users.
- * @module src/models/User.js
+ * @module src/models/UserModel.js
  * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
  * @version 1.0.0
  */

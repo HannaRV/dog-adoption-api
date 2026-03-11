@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import Location from '../models/Location.js'
+import Location from '../models/LocationModel.js'
 
 export default class LocationRepository {
   #model

@@ -1,6 +1,6 @@
 /**
  * @file Mongoose model for dog adoption statistics by location.
- * @module src/models/Location.js
+ * @module src/models/LocationModel.js
  * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
  * @version 1.0.0
  */

@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import Travel from '../models/Travel.js'
+import Travel from '../models/TravelModel.js'
 
 export default class TravelRepository {
   #model

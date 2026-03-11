@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import User from '../models/User.js'
+import User from '../models/UserModel.js'
 
 export default class UserRepository {
   #model

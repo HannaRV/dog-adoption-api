@@ -14,9 +14,7 @@ const PORT = process.env.PORT || 3000
 await connectMongoose()
 
 const expressApplication = new ExpressApplication()
-const server = expressApplication.getApp().listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+const server = expressApplication.getApp().listen(PORT)
 
 process.on('SIGTERM', () => server.close(() => process.exit(0)))
 process.on('SIGINT', () => server.close(() => process.exit(0)))

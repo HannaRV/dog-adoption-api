@@ -11,8 +11,7 @@ import mongoose from 'mongoose'
  * Connects to MongoDB using the connection string from environment variables.
  */
 const connectMongoose = async () => {
-  const connection = await mongoose.connect(process.env.MONGODB_URI)
-  console.log(`MongoDB connected: ${connection.connection.host}`)
+  await mongoose.connect(process.env.MONGODB_URI)
 }
 
 export default connectMongoose
