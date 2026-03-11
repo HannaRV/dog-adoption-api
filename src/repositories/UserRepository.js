@@ -15,6 +15,7 @@ export default class UserRepository {
   }
 
   async findByEmail (email) {
+    // .lean() is intentionally omitted — Mongoose instance is required for comparePassword()
     return this.#model.findOne({ email }).exec()
   }
 
