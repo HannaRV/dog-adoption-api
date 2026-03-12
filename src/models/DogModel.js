@@ -6,8 +6,11 @@
  */
 
 import mongoose from 'mongoose'
+import { BASE_SCHEMA } from './baseSchema.js'
 
-const dogSchema = new mongoose.Schema({
+const dogSchema = BASE_SCHEMA.clone()
+
+dogSchema.add({
   petfinder_id: { type: String, unique: true, sparse: true },
   name: { type: String, required: true },
   breed_primary: { type: String },
@@ -26,6 +29,6 @@ const dogSchema = new mongoose.Schema({
   env_cats: { type: Boolean },
   contact_state: { type: String },
   description: { type: String }
-}, { timestamps: true })
+})
 
 export default mongoose.model('Dog', dogSchema)

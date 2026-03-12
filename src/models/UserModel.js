@@ -7,8 +7,11 @@
 
 import mongoose from 'mongoose'
 import bcryptjs from 'bcryptjs'
+import { BASE_SCHEMA } from './baseSchema.js'
 
-const userSchema = new mongoose.Schema({
+const userSchema = BASE_SCHEMA.clone()
+
+userSchema.add({
   username: {
     type: String,
     required: true,
@@ -26,7 +29,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   }
-}, { timestamps: true })
+})
 
 userSchema.pre('save', async function () {
   const passwordWasNotModified = !this.isModified('password')

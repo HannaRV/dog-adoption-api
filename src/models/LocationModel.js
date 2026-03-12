@@ -6,12 +6,15 @@
  */
 
 import mongoose from 'mongoose'
+import { BASE_SCHEMA } from './baseSchema.js'
 
-const locationSchema = new mongoose.Schema({
+const locationSchema = BASE_SCHEMA.clone()
+
+locationSchema.add({
   location: { type: String, required: true, unique: true },
   exported: { type: Number },
   imported: { type: Number },
   totalInState: { type: Number }
-}, { timestamps: true })
+})
 
 export default mongoose.model('Location', locationSchema)
