@@ -288,10 +288,10 @@ components:
       properties:
         error:
           type: string
-          example: NotFoundError
+          example: Error
         message:
           type: string
-          example: Dog not found.
+          example: Something went wrong.
 
 paths:
   /auth/register:
@@ -332,6 +332,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: ConflictError
+                message: Something went wrong.
 
   /auth/login:
     post:
@@ -367,6 +370,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: UnauthorizedError
+                message: Something went wrong.
 
   /dogs:
     get:
@@ -715,4 +721,3 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
