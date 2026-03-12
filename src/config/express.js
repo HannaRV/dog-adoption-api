@@ -11,6 +11,8 @@ import SecurityHandler from '../middleware/SecurityHandler.js'
 import ErrorHandler from '../middleware/ErrorHandler.js'
 import { router } from '../routes/router.js'
 import { API_CONFIG } from './apiConfig.js'
+import swaggerUi from 'swagger-ui-express'
+import { swaggerDocument } from './swagger/swaggerConfig.js'
 
 /**
  * Configures and manages the Express application.
@@ -49,6 +51,7 @@ export default class ExpressApplication {
   }
 
   #configureRoutes () {
+    this.#app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     this.#app.use(`/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}`, router)
   }
 

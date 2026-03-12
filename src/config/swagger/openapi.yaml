@@ -1,0 +1,718 @@
+openapi: 3.0.0
+
+info:
+  title: Dog Adoption API
+  version: 1.0.0
+  description: >
+    A RESTful API for browsing and managing adoptable dogs in the United States.
+    The dataset is sourced from Petfinder via Kaggle and contains ~58,000 dogs.
+    Write operations require JWT authentication.
+
+servers:
+  - url: https://dog-adoption-api.duckdns.org/api/v1
+    description: Production server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Dog:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 69a83008646bd95d8b3e6bca
+        name:
+          type: string
+          example: Biggie
+        breedPrimary:
+          type: string
+          example: Pit Bull Terrier
+        breedMixed:
+          type: boolean
+          example: true
+        colorPrimary:
+          type: string
+          example: Chocolate
+        age:
+          type: string
+          example: Adult
+        sex:
+          type: string
+          example: Male
+        size:
+          type: string
+          example: Large
+        coat:
+          type: string
+          example: Short
+        fixed:
+          type: boolean
+          example: true
+        houseTrained:
+          type: boolean
+          example: true
+        specialNeeds:
+          type: boolean
+          example: false
+        shotsCurrent:
+          type: boolean
+          example: true
+        envChildren:
+          type: boolean
+          example: true
+        envDogs:
+          type: boolean
+          example: true
+        envCats:
+          type: boolean
+          example: false
+        contactState:
+          type: string
+          example: NV
+        description:
+          type: string
+          example: A sweet dog looking for a home.
+        _links:
+          $ref: '#/components/schemas/DogLinks'
+
+    DogInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Biggie
+        breed_primary:
+          type: string
+          example: Pit Bull Terrier
+        age:
+          type: string
+          example: Adult
+        sex:
+          type: string
+          example: Male
+        size:
+          type: string
+          example: Large
+        coat:
+          type: string
+          example: Short
+        fixed:
+          type: boolean
+          example: true
+        house_trained:
+          type: boolean
+          example: true
+        special_needs:
+          type: boolean
+          example: false
+        shots_current:
+          type: boolean
+          example: true
+        env_children:
+          type: boolean
+          example: true
+        env_dogs:
+          type: boolean
+          example: true
+        env_cats:
+          type: boolean
+          example: false
+        contact_state:
+          type: string
+          example: NV
+        description:
+          type: string
+          example: A sweet dog looking for a home.
+
+    DogLinks:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://dog-adoption-api.duckdns.org/api/v1/dogs/69a83008646bd95d8b3e6bca
+        update:
+          type: object
+          properties:
+            href:
+              type: string
+        delete:
+          type: object
+          properties:
+            href:
+              type: string
+        location:
+          type: object
+          properties:
+            href:
+              type: string
+        travel:
+          type: object
+          properties:
+            href:
+              type: string
+        collection:
+          type: object
+          properties:
+            href:
+              type: string
+
+    TravelRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 69a83079646bd95d8b3f4f4e
+        petfinderId:
+          type: string
+          example: "45287347"
+        contactState:
+          type: string
+          example: OH
+        found:
+          type: string
+          format: date-time
+          nullable: true
+        stillThere:
+          type: boolean
+          example: false
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+            dog:
+              type: object
+              properties:
+                href:
+                  type: string
+            collection:
+              type: object
+              properties:
+                href:
+                  type: string
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 69a8307c646bd95d8b3f6786
+        location:
+          type: string
+          example: Texas
+        exported:
+          type: integer
+          example: 120
+        imported:
+          type: integer
+          example: 45
+        totalInState:
+          type: integer
+          example: 3200
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+            collection:
+              type: object
+              properties:
+                href:
+                  type: string
+
+    Pagination:
+      type: object
+      properties:
+        totalDogs:
+          type: integer
+          example: 58000
+        totalPages:
+          type: integer
+          example: 2900
+        page:
+          type: integer
+          example: 1
+        dogsPerPage:
+          type: integer
+          example: 20
+
+    CollectionLinks:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+        collection:
+          type: object
+          properties:
+            href:
+              type: string
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+
+    AuthToken:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: NotFoundError
+        message:
+          type: string
+          example: Dog not found.
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  example: johndoe
+                email:
+                  type: string
+                  example: john@example.com
+                password:
+                  type: string
+                  example: Password123!
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '409':
+          description: Email already in use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate a user and receive a JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: john@example.com
+                password:
+                  type: string
+                  example: Password123!
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /dogs:
+    get:
+      tags:
+        - Dogs
+      summary: Get all dogs
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+          description: Number of dogs per page
+        - in: query
+          name: breedPrimary
+          schema:
+            type: string
+          description: Filter by primary breed
+          example: Labrador Retriever
+        - in: query
+          name: age
+          schema:
+            type: string
+          description: Filter by age
+          example: Adult
+        - in: query
+          name: sex
+          schema:
+            type: string
+          description: Filter by sex
+          example: Male
+        - in: query
+          name: size
+          schema:
+            type: string
+          description: Filter by size
+          example: Large
+      responses:
+        '200':
+          description: A paginated list of dogs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dogs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dog'
+                  _pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  _links:
+                    $ref: '#/components/schemas/CollectionLinks'
+
+    post:
+      tags:
+        - Dogs
+      summary: Create a new dog
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogInput'
+      responses:
+        '201':
+          description: Dog created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /dogs/{id}:
+    get:
+      tags:
+        - Dogs
+      summary: Get a dog by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: MongoDB ObjectId of the dog
+          example: 69a83008646bd95d8b3e6bca
+      responses:
+        '200':
+          description: Dog found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+        '404':
+          description: Dog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - Dogs
+      summary: Update a dog
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: MongoDB ObjectId of the dog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogInput'
+      responses:
+        '200':
+          description: Dog updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Dog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Dogs
+      summary: Delete a dog
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: MongoDB ObjectId of the dog
+      responses:
+        '204':
+          description: Dog deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Dog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /dogs/{id}/travel:
+    get:
+      tags:
+        - Dogs
+      summary: Get travel records for a specific dog
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: MongoDB ObjectId of the dog
+      responses:
+        '200':
+          description: Travel records for the dog
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  travelRecords:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TravelRecord'
+        '404':
+          description: Dog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /travel:
+    get:
+      tags:
+        - Travel
+      summary: Get all travel records
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+          description: Number of records per page
+      responses:
+        '200':
+          description: A paginated list of travel records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  travelRecords:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TravelRecord'
+                  _pagination:
+                    type: object
+                    properties:
+                      totalTravels:
+                        type: integer
+                        example: 6194
+                      totalPages:
+                        type: integer
+                        example: 310
+                      page:
+                        type: integer
+                        example: 1
+                      travelsPerPage:
+                        type: integer
+                        example: 20
+                  _links:
+                    $ref: '#/components/schemas/CollectionLinks'
+
+  /travel/{petfinderId}:
+    get:
+      tags:
+        - Travel
+      summary: Get travel record by Petfinder ID
+      description: >
+        Uses the dataset's own petfinder_id rather than MongoDB _id,
+        because travel records are linked to dogs via petfinder_id in the source data.
+      parameters:
+        - in: path
+          name: petfinderId
+          required: true
+          schema:
+            type: string
+          description: Petfinder ID of the dog
+          example: "45287347"
+      responses:
+        '200':
+          description: Travel record found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelRecord'
+        '404':
+          description: Travel record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: Get all locations
+      responses:
+        '200':
+          description: A list of all US state locations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+
+  /locations/{state}:
+    get:
+      tags:
+        - Locations
+      summary: Get location by US state
+      parameters:
+        - in: path
+          name: state
+          required: true
+          schema:
+            type: string
+          description: US state name
+          example: Texas
+      responses:
+        '200':
+          description: Location found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          description: Location not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
