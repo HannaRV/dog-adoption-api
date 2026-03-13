@@ -7,6 +7,7 @@
 
 import TravelRepository from '../repositories/TravelRepository.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'
+import { PAGINATION_DEFAULTS } from '../config/apiConfig.js'
 
 export default class TravelService {
   #travelRepository
@@ -15,13 +16,7 @@ export default class TravelService {
     this.#travelRepository = travelRepository
   }
 
-  #throwIfTravelNotFound (travelRecord) {
-    if (!travelRecord) {
-      throw new NotFoundError('Travel record not found')
-    }
-  }
-
-  async getAllTravelRecords ({ page = 1, travelsPerPage = 20 }) {
+  async getAllTravelRecords ({ page = PAGINATION_DEFAULTS.PAGE, travelsPerPage = PAGINATION_DEFAULTS.PAGE_SIZE }) {
     return this.#travelRepository.findAll({ page, travelsPerPage })
   }
 
@@ -29,5 +24,11 @@ export default class TravelService {
     const travelRecord = await this.#travelRepository.findOneByPetfinderId(petfinderId)
     this.#throwIfTravelNotFound(travelRecord)
     return travelRecord
+  }
+
+  #throwIfTravelNotFound (travelRecord) {
+    if (!travelRecord) {
+      throw new NotFoundError('Travel record not found')
+    }
   }
 }

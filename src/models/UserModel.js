@@ -7,7 +7,10 @@
 
 import mongoose from 'mongoose'
 import bcryptjs from 'bcryptjs'
+
 import { BASE_SCHEMA } from './baseSchema.js'
+
+const BCRYPT_SALT_ROUNDS = 10
 
 const userSchema = BASE_SCHEMA.clone()
 
@@ -38,7 +41,7 @@ userSchema.pre('save', async function () {
     return
   }
 
-  this.password = await bcryptjs.hash(this.password, 10)
+  this.password = await bcryptjs.hash(this.password, BCRYPT_SALT_ROUNDS)
 })
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

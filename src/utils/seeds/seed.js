@@ -9,6 +9,7 @@ import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
 import { parse } from 'csv-parse'
+
 import connectMongoose from '../../config/mongoose.js'
 import DogLoader from './loaders/dogLoader.js'
 import TravelLoader from './loaders/travelLoader.js'

@@ -6,6 +6,7 @@
  */
 
 import jwt from 'jsonwebtoken'
+
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
 
 const verifyToken = (authorizationHeader) => {

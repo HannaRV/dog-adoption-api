@@ -6,6 +6,7 @@
  */
 
 import jwt from 'jsonwebtoken'
+
 import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
 import ConflictError from '../utils/errors/ConflictError.js'

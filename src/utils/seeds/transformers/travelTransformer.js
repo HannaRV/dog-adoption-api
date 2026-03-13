@@ -5,6 +5,12 @@
  * @version 1.0.0
  */
 
+/**
+ * Checks if a value is a valid date string.
+ *
+ * @param {*} value - Value to check.
+ * @returns {boolean} True if valid date.
+ */
 const isValidDate = (value) => value && !isNaN(new Date(value).getTime())
 
 /**

@@ -22,10 +22,12 @@ export default class LocationRepository {
     return this.#model.findOne({ location: state }).lean().exec()
   }
 
+  // Used by seed script only — not part of the API surface.
   async insertMany (locations) {
     await this.#model.insertMany(locations, { ordered: false })
   }
 
+  // Used by seed script only — not part of the API surface.
   async deleteAll () {
     await this.#model.deleteMany({})
   }

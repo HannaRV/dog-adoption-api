@@ -10,9 +10,6 @@ import { PAGINATION_DEFAULTS, API_RESOURCES } from '../config/apiConfig.js'
 import TravelService from '../services/TravelService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
-/**
- * Coordinates travel operations between HTTP layer and travel service.
- */
 export default class TravelController {
   #travelService
   #hateoasLinkBuilder

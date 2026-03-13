@@ -6,13 +6,10 @@
  */
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
-import { PAGINATION_DEFAULTS, API_RESOURCES } from '../config/apiConfig.js'
+import { PAGINATION_DEFAULTS, API_RESOURCES, API_CONFIG } from '../config/apiConfig.js'
 import DogService from '../services/DogService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
-/**
- * Coordinates dog operations between HTTP layer and dog service.
- */
 export default class DogController {
   #dogService
   #hateoasLinkBuilder
@@ -62,7 +59,7 @@ export default class DogController {
     try {
       const dogData = this.#filterAllowedFields(req.body)
       const dog = await this.#dogService.createDog(dogData)
-      res.location(`${req.protocol}://${req.get('host')}/api/v1/dogs/${dog._id}`)
+      res.location(`${req.protocol}://${req.get('host')}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}/dogs/${dog._id}`)
         .status(HTTP_STATUS.CREATED)
         .json(this.#buildDogResponse(dog))
     } catch (error) {
@@ -163,21 +160,21 @@ export default class DogController {
     }
   }
 
-  #buildDogTravelResponse (travelRecords) {
-    return {
-      travelRecords: travelRecords.map(record => ({
-        ...this.#mapTravelToResponseFormat(record),
-        _links: this.#hateoasLinkBuilder.buildTravelLinks(record.petfinder_id)
-      }))
-    }
-  }
-
   #buildPagination (result) {
     return {
       totalDogs: result.totalDogs,
       totalPages: result.totalPages,
       page: result.page,
       dogsPerPage: result.dogsPerPage
+    }
+  }
+
+  #buildDogTravelResponse (travelRecords) {
+    return {
+      travelRecords: travelRecords.map(record => ({
+        ...this.#mapTravelToResponseFormat(record),
+        _links: this.#hateoasLinkBuilder.buildTravelLinks(record.petfinder_id)
+      }))
     }
   }
 }

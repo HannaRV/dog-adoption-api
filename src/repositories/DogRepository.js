@@ -6,6 +6,7 @@
  */
 
 import Dog from '../models/DogModel.js'
+import { PAGINATION_DEFAULTS } from '../config/apiConfig.js'
 
 export default class DogRepository {
   #model
@@ -18,7 +19,7 @@ export default class DogRepository {
     return (page - 1) * dogsPerPage
   }
 
-  async findAll ({ filter = {}, page = 1, dogsPerPage = 20 }) {
+  async findAll ({ filter = {}, page = PAGINATION_DEFAULTS.PAGE, dogsPerPage = PAGINATION_DEFAULTS.PAGE_SIZE }) {
     const dogsToSkip = this.#calculateDogsToSkip(page, dogsPerPage)
     const dogs = await this.#model.find(filter).skip(dogsToSkip).limit(dogsPerPage).lean().exec()
     const totalDogs = await this.#model.countDocuments(filter)
@@ -44,10 +45,12 @@ export default class DogRepository {
     return this.#model.findByIdAndDelete(id).lean().exec()
   }
 
+  // Used by seed script only — not part of the API surface.
   async insertMany (dogs) {
     await this.#model.insertMany(dogs, { ordered: false })
   }
 
+  // Used by seed script only — not part of the API surface.
   async deleteAll () {
     await this.#model.deleteMany({})
   }

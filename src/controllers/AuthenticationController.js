@@ -8,9 +8,6 @@
 import { HTTP_STATUS } from '../config/httpStatus.js'
 import JWTAuthenticationService from '../services/JWTAuthenticationService.js'
 
-/**
- * Coordinates authentication operations between HTTP layer and authentication service.
- */
 export default class AuthenticationController {
   #authenticationService
 

@@ -9,6 +9,7 @@ import DogRepository from '../repositories/DogRepository.js'
 import TravelRepository from '../repositories/TravelRepository.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'
 import ValidationError from '../utils/errors/ValidationError.js'
+import { PAGINATION_DEFAULTS } from '../config/apiConfig.js'
 
 export default class DogService {
   #dogRepository
@@ -19,13 +20,7 @@ export default class DogService {
     this.#travelRepository = travelRepository
   }
 
-  #throwIfDogNotFound (dog) {
-    if (!dog) {
-      throw new NotFoundError('Dog not found')
-    }
-  }
-
-  async getAllDogs ({ filter = {}, page = 1, dogsPerPage = 20 }) {
+  async getAllDogs ({ filter = {}, page = PAGINATION_DEFAULTS.PAGE, dogsPerPage = PAGINATION_DEFAULTS.PAGE_SIZE }) {
     return this.#dogRepository.findAll({ filter, page, dogsPerPage })
   }
 
@@ -63,5 +58,11 @@ export default class DogService {
     this.#throwIfDogNotFound(removedDog)
     await this.#travelRepository.removeByPetfinderId(removedDog.petfinder_id)
     return removedDog
+  }
+
+  #throwIfDogNotFound (dog) {
+    if (!dog) {
+      throw new NotFoundError('Dog not found')
+    }
   }
 }

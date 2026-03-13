@@ -6,12 +6,14 @@
  */
 
 import express from 'express'
+
 import DogRouter from './DogRouter.js'
 import TravelRouter from './TravelRouter.js'
 import LocationRouter from './LocationRouter.js'
 import AuthenticationRouter from './AuthenticationRouter.js'
 import NotFoundError from '../utils/errors/NotFoundError.js'
 import { HTTP_STATUS } from '../config/httpStatus.js'
+import { API_CONFIG, API_RESOURCES } from '../config/apiConfig.js'
 
 export const router = express.Router()
 
@@ -19,9 +21,9 @@ router.get('/', (req, res) => {
   res.status(HTTP_STATUS.OK).json({
     message: 'Welcome to the Dog Adoption API v1!',
     resources: {
-      dogs: `${req.protocol}://${req.get('host')}/api/v1/dogs`,
-      travel: `${req.protocol}://${req.get('host')}/api/v1/travel`,
-      locations: `${req.protocol}://${req.get('host')}/api/v1/locations`
+      dogs: `${req.protocol}://${req.get('host')}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}/${API_RESOURCES.DOGS}`,
+      travel: `${req.protocol}://${req.get('host')}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}/${API_RESOURCES.TRAVEL}`,
+      locations: `${req.protocol}://${req.get('host')}/${API_CONFIG.PREFIX}/${API_CONFIG.VERSION}/${API_RESOURCES.LOCATIONS}`
     }
   })
 })

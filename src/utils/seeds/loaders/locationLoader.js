@@ -7,9 +7,6 @@
 
 import LocationRepository from '../../../repositories/LocationRepository.js'
 
-/**
- * Loads transformed location data into the database.
- */
 export default class LocationLoader {
   #locationRepository
 

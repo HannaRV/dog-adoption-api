@@ -1,5 +1,5 @@
 /**
- * @file Security middleware handler.
+ * @file Security middleware using established libraries.
  * @module src/middleware/SecurityHandler.js
  * @author Hanna Rubio Vretby <hr222sy@student.lnu.se>
  * @version 1.0.0
@@ -7,6 +7,9 @@
 
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
+
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000
+const RATE_LIMIT_MAX_REQUESTS = 100
 
 /**
  * Handles application security middleware.
@@ -44,8 +47,8 @@ export default class SecurityHandler {
    */
   #createRateLimiter () {
     return rateLimit({
-      windowMs: 15 * 60 * 1000,
-      max: 100,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+      max: RATE_LIMIT_MAX_REQUESTS,
       standardHeaders: true,
       legacyHeaders: false,
       message: {

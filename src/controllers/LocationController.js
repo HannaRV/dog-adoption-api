@@ -10,9 +10,6 @@ import { API_RESOURCES } from '../config/apiConfig.js'
 import LocationService from '../services/LocationService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
-/**
- * Coordinates location operations between HTTP layer and location service.
- */
 export default class LocationController {
   #locationService
   #hateoasLinkBuilder

@@ -7,9 +7,6 @@
 
 import TravelRepository from '../../../repositories/TravelRepository.js'
 
-/**
- * Loads transformed travel data into the database.
- */
 export default class TravelLoader {
   #travelRepository
 

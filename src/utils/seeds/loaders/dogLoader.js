@@ -7,9 +7,6 @@
 
 import DogRepository from '../../../repositories/DogRepository.js'
 
-/**
- * Loads transformed dog data into the database.
- */
 export default class DogLoader {
   #dogRepository
 

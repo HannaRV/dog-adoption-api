@@ -7,9 +7,6 @@
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
 
-/**
- * Logs error details to console.
- */
 class ErrorLogger {
   /**
    * @param {Error} error - Error object.
@@ -31,9 +28,6 @@ class ErrorLogger {
   }
 }
 
-/**
- * Classifies errors into appropriate HTTP responses.
- */
 class ErrorClassifier {
   /**
    * @param {Error} error - Error object.
@@ -52,9 +46,6 @@ class ErrorClassifier {
   }
 }
 
-/**
- * Sends error responses to client.
- */
 class ErrorResponder {
   /**
    * @param {object} res - Express response object.

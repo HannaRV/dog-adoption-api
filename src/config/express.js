@@ -7,11 +7,12 @@
 
 import express from 'express'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express'
+
 import SecurityHandler from '../middleware/SecurityHandler.js'
 import ErrorHandler from '../middleware/ErrorHandler.js'
 import { router } from '../routes/router.js'
 import { API_CONFIG } from './apiConfig.js'
-import swaggerUi from 'swagger-ui-express'
 import { swaggerDocument } from './swagger/swaggerConfig.js'
 
 /**
