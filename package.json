@@ -12,6 +12,7 @@
     "lint:fix": "eslint src/ --fix"
   },
   "repository": {
+
     "type": "git",
     "url": "git+https://github.com/HannaRV/dog-adoption-api.git"
   },

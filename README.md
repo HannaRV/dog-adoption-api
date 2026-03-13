@@ -110,6 +110,7 @@ CSV_PATH_LOCATIONS=data/movesByLocation.csv
 
 ### Seed the Database
 
+> The dataset CSV files are not included in the repository due to their size. Download them from [Kaggle](https://www.kaggle.com/datasets/thedevastator/adoptable-dogs-in-the-us) and place them in the `data/` folder before seeding.
 ```bash
 npm run seed
 ```
