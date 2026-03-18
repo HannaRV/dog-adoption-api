@@ -1,3 +1,6 @@
+# Deployment is manual via workflow_dispatch to maintain control over
+# when production is updated. Tests run automatically on every push.
+
 name: API Tests
 
 on:
