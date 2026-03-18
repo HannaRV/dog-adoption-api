@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "00c3a9db-3221-4089-beaf-650276a95b0f",
     "name": "Dog Adoption API",
+    "description": "This collection tests the Dog Adoption API. Authentication tests use randomized credentials (email and username) generated in pre-request scripts to avoid conflicts between test runs. Test users are not cleaned up after each run as the API has no DELETE /users endpoint — randomized credentials ensure no conflicts between runs. The CRUD sequence (POST → PUT → DELETE) cleans up dog entries created during testing.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "40098002"
   },
