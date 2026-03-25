@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken'
 import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
 import ConflictError from '../utils/errors/ConflictError.js'
+import ValidationError from '../utils/errors/ValidationError.js'
 import { JWT_CONFIG } from '../config/authConfig.js'
 
 export default class JWTAuthenticationService {
@@ -28,6 +29,10 @@ export default class JWTAuthenticationService {
   }
 
   async register (username, email, password) {
+    if (typeof username !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+      throw new ValidationError('Invalid input')
+    }
+
     const existingUser = await this.#userRepository.findByEmail(email)
     const emailAlreadyExists = Boolean(existingUser)
 
@@ -41,6 +46,10 @@ export default class JWTAuthenticationService {
   }
 
   async login (email, password) {
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      throw new ValidationError('Invalid input')
+    }
+
     const user = await this.#userRepository.findByEmail(email)
     const userWasNotFound = !user
 
