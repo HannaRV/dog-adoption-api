@@ -8,6 +8,7 @@
 import jwt from 'jsonwebtoken'
 
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
+import { JWT_CONFIG } from '../config/authConfig.js'
 
 const verifyToken = (authorizationHeader) => {
   if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
@@ -15,7 +16,7 @@ const verifyToken = (authorizationHeader) => {
   }
 
   const token = authorizationHeader.split(' ')[1]
-  return jwt.verify(token, process.env.JWT_SECRET)
+  return jwt.verify(token, process.env.JWT_SECRET, { algorithms: [JWT_CONFIG.ALGORITHM] })
 }
 
 const authenticateJWT = (req, res, next) => {

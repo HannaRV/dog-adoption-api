@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken'
 import UserRepository from '../repositories/UserRepository.js'
 import UnauthorizedError from '../utils/errors/UnauthorizedError.js'
 import ConflictError from '../utils/errors/ConflictError.js'
+import { JWT_CONFIG } from '../config/authConfig.js'
 
 export default class JWTAuthenticationService {
   #userRepository
@@ -22,7 +23,7 @@ export default class JWTAuthenticationService {
     return jwt.sign(
       { id: userId },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      { expiresIn: process.env.JWT_EXPIRES_IN, algorithm: JWT_CONFIG.ALGORITHM }
     )
   }
 
