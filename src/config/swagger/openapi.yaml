@@ -300,8 +300,8 @@ paths:
         - Authentication
       summary: Register a new user
       description: >
-      Register a new user account. Note that the example credentials may already
-      exist in the production database — use unique values when testing.
+        Register a new user account. Note that the example credentials may already
+        exist in the production database — use unique values when testing.
       requestBody:
         required: true
         content:
