@@ -20,3 +20,22 @@ export const API_RESOURCES = {
   TRAVEL: 'travel',
   LOCATIONS: 'locations'
 }
+
+export const DOG_BOOLEAN_FIELDS = [
+  'house_trained',
+  'shots_current',
+  'fixed',
+  'special_needs',
+  'env_children',
+  'env_dogs',
+  'env_cats'
+]
+
+export const US_STATE_CODE_PATTERN = /^[A-Z]{2}$/
+
+export const CACHE_CONTROL = {
+  STATISTICS: 'public, max-age=3600',
+  DOGS: 'public, max-age=300',
+  TRAVEL: 'public, max-age=300',
+  LOCATIONS: 'public, max-age=86400'
+}

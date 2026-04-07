@@ -6,7 +6,7 @@
  */
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
-import { API_RESOURCES } from '../config/apiConfig.js'
+import { API_RESOURCES, CACHE_CONTROL } from '../config/apiConfig.js'
 import LocationService from '../services/LocationService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
@@ -25,6 +25,7 @@ export default class LocationController {
   async getAllLocations (req, res, next) {
     try {
       const locations = await this.#locationService.getAllLocations()
+      res.set('Cache-Control', CACHE_CONTROL.LOCATIONS)
       res.status(HTTP_STATUS.OK).json(this.#buildCollectionResponse(locations))
     } catch (error) {
       next(error)
@@ -34,6 +35,7 @@ export default class LocationController {
   async getLocationByState (req, res, next) {
     try {
       const location = await this.#locationService.getLocationByState(req.params.state)
+      res.set('Cache-Control', CACHE_CONTROL.LOCATIONS)
       res.status(HTTP_STATUS.OK).json(this.#buildLocationResponse(location))
     } catch (error) {
       next(error)

@@ -6,7 +6,7 @@
  */
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
-import { PAGINATION_DEFAULTS, API_RESOURCES, API_CONFIG } from '../config/apiConfig.js'
+import { PAGINATION_DEFAULTS, API_RESOURCES, API_CONFIG, CACHE_CONTROL } from '../config/apiConfig.js'
 import DogService from '../services/DogService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
@@ -31,6 +31,7 @@ export default class DogController {
     try {
       const query = this.#buildQuery(req)
       const result = await this.#dogService.getAllDogs(query)
+      res.set('Cache-Control', CACHE_CONTROL.DOGS)
       res.status(HTTP_STATUS.OK).json(this.#buildCollectionResponse(result))
     } catch (error) {
       next(error)
@@ -40,6 +41,7 @@ export default class DogController {
   async getDogById (req, res, next) {
     try {
       const dog = await this.#dogService.getDogById(req.params.id)
+      res.set('Cache-Control', CACHE_CONTROL.DOGS)
       res.status(HTTP_STATUS.OK).json(this.#buildDogResponse(dog))
     } catch (error) {
       next(error)
@@ -49,6 +51,7 @@ export default class DogController {
   async getDogTravelById (req, res, next) {
     try {
       const travelRecords = await this.#dogService.getDogTravelById(req.params.id)
+      res.set('Cache-Control', CACHE_CONTROL.DOGS)
       res.status(HTTP_STATUS.OK).json(this.#buildDogTravelResponse(travelRecords))
     } catch (error) {
       next(error)
@@ -81,6 +84,23 @@ export default class DogController {
     try {
       await this.#dogService.removeDog(req.params.id)
       res.status(HTTP_STATUS.NO_CONTENT).send()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Returns aggregated dog statistics.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async getStatistics (req, res, next) {
+    try {
+      const statistics = await this.#dogService.getStatistics()
+      res.set('Cache-Control', CACHE_CONTROL.STATISTICS)
+      res.status(HTTP_STATUS.OK).json(statistics)
     } catch (error) {
       next(error)
     }

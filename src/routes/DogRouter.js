@@ -26,6 +26,7 @@ export default class DogRouter {
   }
 
   #configureRoutes () {
+    this.#router.get('/stats', (req, res, next) => this.#dogController.getStatistics(req, res, next))
     this.#router.get('/', (req, res, next) => this.#dogController.getAllDogs(req, res, next))
     this.#router.get('/:id', (req, res, next) => this.#dogController.getDogById(req, res, next))
     this.#router.get('/:id/travel', (req, res, next) => this.#dogController.getDogTravelById(req, res, next))

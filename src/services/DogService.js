@@ -60,6 +60,15 @@ export default class DogService {
     return removedDog
   }
 
+  /**
+   * Retrieves aggregated statistics for all dogs.
+   *
+   * @returns {Promise<object>} Aggregated dog statistics.
+   */
+  async getStatistics () {
+    return this.#dogRepository.getStatistics()
+  }
+
   #throwIfDogNotFound (dog) {
     if (!dog) {
       throw new NotFoundError('Dog not found')

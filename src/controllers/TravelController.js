@@ -6,7 +6,7 @@
  */
 
 import { HTTP_STATUS } from '../config/httpStatus.js'
-import { PAGINATION_DEFAULTS, API_RESOURCES } from '../config/apiConfig.js'
+import { PAGINATION_DEFAULTS, API_RESOURCES, CACHE_CONTROL } from '../config/apiConfig.js'
 import TravelService from '../services/TravelService.js'
 import HateoasLinkBuilder from '../utils/HateoasLinkBuilder.js'
 
@@ -26,6 +26,7 @@ export default class TravelController {
     try {
       const query = this.#buildQuery(req)
       const result = await this.#travelService.getAllTravelRecords(query)
+      res.set('Cache-Control', CACHE_CONTROL.TRAVEL)
       res.status(HTTP_STATUS.OK).json(this.#buildCollectionResponse(result))
     } catch (error) {
       next(error)
@@ -35,6 +36,7 @@ export default class TravelController {
   async getTravelRecordByPetfinderId (req, res, next) {
     try {
       const travelRecord = await this.#travelService.getTravelRecordByPetfinderId(req.params.petfinderId)
+      res.set('Cache-Control', CACHE_CONTROL.TRAVEL)
       res.status(HTTP_STATUS.OK).json(this.#buildTravelResponse(travelRecord))
     } catch (error) {
       next(error)
