@@ -31,4 +31,9 @@ dogSchema.add({
   description: { type: String }
 })
 
+dogSchema.index({ age: 1 })
+dogSchema.index({ sex: 1 })
+dogSchema.index({ size: 1 })
+dogSchema.index({ contact_state: 1 })
+
 export default mongoose.model('Dog', dogSchema)
