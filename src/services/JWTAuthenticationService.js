@@ -66,4 +66,29 @@ export default class JWTAuthenticationService {
     const token = this.#generateToken(user._id)
     return { token }
   }
+
+  /**
+   * Finds or creates a user via OAuth provider and returns a JWT.
+   *
+   * @param {string} provider - OAuth provider name (e.g. 'github').
+   * @param {string} providerId - Provider's unique user ID.
+   * @param {string} email - User's email from provider.
+   * @param {string} username - User's username from provider.
+   * @returns {Promise<{token: string}>} JWT token.
+   */
+  async oauthFindOrCreate (provider, providerId, email, username) {
+    let user = await this.#userRepository.findByProviderId(provider, providerId)
+
+    if (!user) {
+      const existingEmail = await this.#userRepository.findByEmail(email)
+      if (existingEmail) {
+        user = await this.#userRepository.updateProviderInfo(existingEmail._id, provider, providerId)
+      } else {
+        user = await this.#userRepository.create({ username, email, provider, providerId })
+      }
+    }
+
+    const token = this.#generateToken(user._id)
+    return { token }
+  }
 }

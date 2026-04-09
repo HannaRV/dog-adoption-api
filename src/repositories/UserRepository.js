@@ -23,4 +23,31 @@ export default class UserRepository {
     const user = new this.#model(userData)
     return user.save()
   }
+
+  /**
+   * Finds a user by OAuth provider and provider ID.
+   *
+   * @param {string} provider - OAuth provider name.
+   * @param {string} providerId - Provider's unique user ID.
+   * @returns {Promise<object|null>} User document or null.
+   */
+  async findByProviderId (provider, providerId) {
+    return this.#model.findOne({ provider, providerId }).exec()
+  }
+
+  /**
+   * Updates a user's OAuth provider information.
+   *
+   * @param {string} id - User's internal MongoDB ID.
+   * @param {string} provider - OAuth provider name.
+   * @param {string} providerId - Provider's unique user ID.
+   * @returns {Promise<object>} Updated user document.
+   */
+  async updateProviderInfo (id, provider, providerId) {
+    return this.#model.findByIdAndUpdate(
+      id,
+      { provider, providerId },
+      { returnDocument: 'after' }
+    ).exec()
+  }
 }

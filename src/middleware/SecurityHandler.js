@@ -10,45 +10,42 @@ import rateLimit from 'express-rate-limit'
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000
 const RATE_LIMIT_MAX_REQUESTS = 100
+const OAUTH_RATE_LIMIT_MAX_REQUESTS = 10
 
-/**
- * Handles application security middleware.
- * Provides abstraction over third-party security libraries.
- */
 export default class SecurityHandler {
   #rateLimiter
 
   constructor () {
-    this.#rateLimiter = this.#createRateLimiter()
+    this.#rateLimiter = this.#createRateLimiter(RATE_LIMIT_MAX_REQUESTS)
   }
 
-  /**
-   * Returns Helmet middleware with basic security headers.
-   *
-   * @returns {Function} Express middleware for security headers.
-   */
   getSecurityHeadersMiddleware () {
     return helmet()
   }
 
-  /**
-   * Returns rate limiting middleware.
-   *
-   * @returns {Function} Express middleware for rate limiting.
-   */
   getRateLimitMiddleware () {
     return this.#rateLimiter
   }
 
   /**
-   * Configures rate limiter: 100 requests per 15 minutes per IP.
+   * Returns strict rate limiting middleware for OAuth endpoints.
    *
+   * @returns {Function} Express middleware for OAuth rate limiting.
+   */
+  getOAuthRateLimitMiddleware () {
+    return this.#createRateLimiter(OAUTH_RATE_LIMIT_MAX_REQUESTS)
+  }
+
+  /**
+   * Creates a rate limiter with the given max requests per window.
+   *
+   * @param {number} max - Maximum requests per window.
    * @returns {Function} Express rate limiting middleware.
    */
-  #createRateLimiter () {
+  #createRateLimiter (max) {
     return rateLimit({
       windowMs: RATE_LIMIT_WINDOW_MS,
-      max: RATE_LIMIT_MAX_REQUESTS,
+      max,
       standardHeaders: true,
       legacyHeaders: false,
       message: {

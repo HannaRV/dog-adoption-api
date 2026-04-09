@@ -50,4 +50,22 @@ export default class AuthenticationController {
       next(error)
     }
   }
+
+  /**
+   * Finds or creates a user via OAuth and returns a JWT token.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} req.body - { provider, providerId, email, username }
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async oauthFindOrCreate (req, res, next) {
+    try {
+      const { provider, providerId, email, username } = req.body
+      const token = await this.#authenticationService.oauthFindOrCreate(provider, providerId, email, username)
+      res.status(HTTP_STATUS.OK).json(token)
+    } catch (error) {
+      next(error)
+    }
+  }
 }

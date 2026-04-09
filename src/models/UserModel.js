@@ -30,17 +30,22 @@ userSchema.add({
   },
   password: {
     type: String,
-    required: true
+    required: false
+  },
+  provider: {
+    type: String,
+    enum: ['local', 'github'],
+    default: 'local'
+  },
+  providerId: {
+    type: String
   }
 })
 
 userSchema.pre('save', async function () {
-  const passwordWasNotModified = !this.isModified('password')
-
-  if (passwordWasNotModified) {
+  if (!this.password || !this.isModified('password')) {
     return
   }
-
   this.password = await bcryptjs.hash(this.password, BCRYPT_SALT_ROUNDS)
 })
 
