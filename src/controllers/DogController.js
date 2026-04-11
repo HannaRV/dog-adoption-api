@@ -122,12 +122,19 @@ export default class DogController {
     }
   }
 
-  #buildFilter ({ breedPrimary, age, sex, size }) {
+  #buildFilter ({ breedPrimary, age, sex, size, location, envChildren, envDogs, envCats, houseTrained }) {
     const filter = {}
     if (breedPrimary) filter.breed_primary = breedPrimary
     if (age) filter.age = age
     if (sex) filter.sex = sex
     if (size) filter.size = size
+    if (location === 'continental') filter.contact_state = { $nin: ['HI', 'AK'] }
+    else if (location === 'hawaii') filter.contact_state = 'HI'
+    else if (location === 'alaska') filter.contact_state = 'AK'
+    if (envChildren === 'true') filter.env_children = true
+    if (envDogs === 'true') filter.env_dogs = true
+    if (envCats === 'true') filter.env_cats = true
+    if (houseTrained === 'true') filter.house_trained = true
     return filter
   }
 
