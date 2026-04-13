@@ -41,12 +41,13 @@ const transformDog = (row) => ({
 const sanitizeName = (name) => {
   if (!name) return 'Unknown'
   return name
-    .split('\\"')[0]
-    .split(',')[0]
-    .replace(/COURTESY LISTING!?/gi, '')
+    .replace(/\*[^*]*\*/gi, '')
+    .replace(/[-–—,]?\s*courtesy\s*(post(ing)?|list(ing)?)?/gi, '')
+    .replace(/\*+/g, '')
     .replace(/zz\s*/gi, '')
     .replace(/\\/g, '')
-    .trim()
+    .replace(/\s+/g, ' ')
+    .trim() || 'Unknown'
 }
 
 export default transformDog
