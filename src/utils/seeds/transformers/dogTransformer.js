@@ -13,7 +13,7 @@
  */
 const transformDog = (row) => ({
   petfinder_id: row.id,
-  name: row.name || null,
+  name: sanitizeName(row.name),
   breed_primary: row.breed_primary || null,
   breed_mixed: row.breed_mixed === 'True',
   color_primary: row.color_primary || null,
@@ -31,5 +31,22 @@ const transformDog = (row) => ({
   contact_state: row.contact_state || null,
   description: row.description || null
 })
+
+/**
+ * Sanitizes a dog name by removing embedded descriptions and courtesy listing markers.
+ *
+ * @param {string} name - Raw dog name from dataset.
+ * @returns {string} Cleaned dog name.
+ */
+const sanitizeName = (name) => {
+  if (!name) return 'Unknown'
+  return name
+    .split('\\"')[0]
+    .split(',')[0]
+    .replace(/COURTESY LISTING!?/gi, '')
+    .replace(/zz\s*/gi, '')
+    .replace(/\\/g, '')
+    .trim()
+}
 
 export default transformDog
