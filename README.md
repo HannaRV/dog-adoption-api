@@ -11,8 +11,8 @@
 
 A RESTful API for browsing and managing adoptable dogs in the United States. Built with Node.js, Express and MongoDB Atlas. The dataset contains ~58,000 dogs sourced from Petfinder via Kaggle.
 
-Live API: Discontinued — see note below
-Interactive Documentation: Discontinued — see note below
+- Live API: Discontinued — see note below
+- Interactive Documentation: Discontinued — see note below
 
 > **Note:** The live deployment was hosted on DigitalOcean during the course 
 > and has been discontinued after grading. The complete source code, Docker 
