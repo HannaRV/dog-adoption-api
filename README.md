@@ -131,13 +131,12 @@ npm run dev      # Development with nodemon
 
 ## Testing
 
-Run the full Postman test suite against the production API:
+Run the full Postman test suite locally:
 
-```bash
-npx newman run postman/dog-adoption-api.postman_collection.json -e postman/production.postman_environment.json
-```
+npx newman run postman/dog-adoption-api.postman_collection.json -e postman/local.postman_environment.json
 
-Or check the CI/CD pipeline results in [GitHub Actions](https://github.com/HannaRV/dog-adoption-api/actions).
+The CI/CD pipeline history in GitHub Actions shows all tests passing against 
+the production environment during the active deployment period.
 
 ---
 
